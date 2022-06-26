@@ -10,7 +10,9 @@ export const nav = () => {
     },
     { 
       text: 'react',
-      link: '/react'
+      items: [
+        { text: 'react的一些内置Hooks', link: '/react/hooks' },
+      ]
     },
     { 
       text: 'node',
