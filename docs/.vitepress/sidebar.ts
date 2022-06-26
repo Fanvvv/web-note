@@ -1,0 +1,12 @@
+export const vue3 = () => {
+  return [
+    {
+      text: 'Vue3相关',
+      items: [
+        { text: 'vue3的setup函数', link: '/vue3/setup-function' },
+        { text: 'vue3的响应式API', link: '/vue3/composition-api' },
+        { text: 'vue3+ts+elementplus项目搭建', link: '/vue3/project-setup' },
+      ]
+    }
+  ]
+}

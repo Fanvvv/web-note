@@ -1,21 +1,23 @@
 export const nav = () => {
   return [
     { 
-      text: 'js',
+      text: 'Js',
       link: '/js'
     },
     { 
-      text: 'vue',
-      link: '/vue'
-    },
-    { 
-      text: 'react',
+      text: 'Vue',
       items: [
-        { text: 'react的一些内置Hooks', link: '/react/hooks' },
+        { text: 'Vue3相关', link: '/vue3/composition-api' },
       ]
     },
     { 
-      text: 'node',
+      text: 'React',
+      items: [
+        { text: 'React的一些内置Hooks', link: '/react/hooks' },
+      ]
+    },
+    { 
+      text: 'Node',
       link: '/node'
     },
     { 
