@@ -334,3 +334,69 @@ console.log('script end')
 - webpack-bundle-analyzer: 可视化webpack输出⽂件的体积 
 - mini-css-extract-plugin: CSS提取到单独的⽂件中，⽀持按需加载 
 
+## 跨域
+
+1. JSONP：通过动态创建 script，再请求一个带参网址实现跨域通信。
+2. document.domain + iframe 跨域
+3. location.hash + iframe 跨域
+4. window.name + iframe 跨域
+5. postMessage 跨域
+6. CORS：服务端设置 Access-Control-Allow-Origin 即可，前端无须设置，若要带 cookie 请求，前后端都需要设置。
+7. 代理跨域：启一个代理服务器，实现数据的转发
+
+## ajax、axios、fetch的区别
+
+### ajax
+
+缺点：
+
+- 本身是针对MVC编程，不符合前端MVVM的浪潮
+- 基于原生XHR开发，XHR本身的架构不清晰
+- 不符合关注分离（Separation of Concerns）的原则
+- 配置和调用方式非常混乱，而且基于事件的异步模型不友好。
+
+### fetch
+
+**fetch不是ajax的进一步封装，而是原生js，没有使用XMLHttpRequest对象**。
+
+fetch的优点：
+
+- 语法简洁，更加语义化
+- 基于标准 Promise 实现，支持 async/await
+- 更加底层，提供的API丰富（request, response）
+- 脱离了XHR，是ES规范里新的实现方式
+
+fetch的缺点：
+
+- fetch只对网络请求报错，对400，500都当做成功的请求，服务器返回 400，500 错误码时并不会 reject，只有网络错误这些导致请求不能完成时，fetch 才会被 reject。
+- fetch默认不会带cookie，需要添加配置项： fetch(url, {credentials: 'include'})
+- fetch不支持abort，不支持超时控制，使用setTimeout及Promise.reject的实现的超时控制并不能阻止请求过程继续在后台运行，造成了流量的浪费
+- fetch没有办法原生监测请求的进度，而XHR可以
+
+### axios
+
+Axios 是一种基于Promise封装的HTTP客户端，其特点如下：
+
+- 浏览器端发起XMLHttpRequests请求
+- node端发起http请求
+- 支持Promise API
+- 监听请求和返回
+- 对请求和返回进行转化
+- 取消请求
+- 自动转换json数据
+- 客户端支持抵御XSRF攻击
+
+## 深拷贝
+
+```js
+const obj = {}
+const clone = (target) => {
+    if (typeof target !== 'object') return target
+    const cloneTarget = Array.isArray(target) ? [] : {}
+    for (const key in target) {
+        cloneTarget[key] = clone(target[key])
+    }
+    return cloneTarget
+}
+```
+
