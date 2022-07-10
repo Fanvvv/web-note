@@ -1,5 +1,5 @@
 import { nav } from './nav'
-import { vue3 } from './sidebar'
+import { vue3, interview } from './sidebar'
 
 export default {
   title: 'Web-Notes',
@@ -16,7 +16,8 @@ export default {
     },
     nav: nav(),
     sidebar: {
-      '/vue3/': vue3()
+      '/vue3/': vue3(),
+      '/interview/': interview()
     }
   }
 }

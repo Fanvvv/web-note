@@ -28,5 +28,9 @@ export const nav = () => {
       text: '算法',
       link: '/algo'
     },
+    {
+      text: '面试',
+      link: '/interview/html'
+    }
   ]
 }

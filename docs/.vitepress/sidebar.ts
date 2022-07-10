@@ -10,3 +10,16 @@ export const vue3 = () => {
     }
   ]
 }
+
+export const interview = () => {
+  return [
+    {
+      text: '面试题',
+      items: [
+        { text: 'html', link: '/interview/html' },
+        { text: 'css', link: '/interview/css' },
+        { text: 'js', link: '/interview/js' },
+      ]
+    }
+  ]
+}
