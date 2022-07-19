@@ -1,9 +1,9 @@
 export const nav = () => {
   return [
-    { 
-      text: 'Js',
-      link: '/js'
-    },
+    // { 
+    //   text: 'Js',
+    //   link: '/js'
+    // },
     { 
       text: 'Vue',
       items: [
@@ -16,18 +16,18 @@ export const nav = () => {
         { text: 'React的一些内置Hooks', link: '/react/hooks' },
       ]
     },
-    { 
-      text: 'Node',
-      link: '/node'
-    },
-    { 
-      text: '设计模式',
-      link: '/design-pattern'
-    },
-    { 
-      text: '算法',
-      link: '/algo'
-    },
+    // { 
+    //   text: 'Node',
+    //   link: '/node'
+    // },
+    // { 
+    //   text: '设计模式',
+    //   link: '/design-pattern'
+    // },
+    // { 
+    //   text: '算法',
+    //   link: '/algo'
+    // },
     {
       text: '面试',
       link: '/interview/html'
