@@ -96,6 +96,24 @@ var obj = {
 };
 ```
 
+## 箭头函数不适用场景
+
+- 对象方法
+- 对象原型
+- 构造函数
+- 动态上下文的回调函数
+
+```js
+const btn1 = document.getElementById('btn1')
+btn1.addEventListener('click' () => {
+    // 使用箭头函数，this指向window，而不是获取的按钮
+    console.log(this === window) // true
+    this.innerHTML = 'click me'
+})
+```
+
+- Vue 的生命周期函数和 methods
+
 ## map和weakMap的区别
 
 1. map。map本质上就是键值对的集合，但是普通的Object中的键值对中的键只能是字符串。实际上Map是一个数组，它的每一个数据也都是一个数组。
@@ -154,6 +172,38 @@ const map = [
 - 对于数组的遍历，for…in 会返回数组中所有可枚举的属性(包括原型链上可枚举的属性)，for…of 只返回数组的下标对应的属性值
 
 > for...in 循环主要是为了遍历对象而生，不适用于遍历数组；for...of 循环可以用来遍历数组、类数组对象，字符串、Set、Map 以及 Generator 对象。
+
+## for-await-of 有什么作用
+
+- 用于遍历多个 Promise
+- Promise.all 的替代品
+
+```js
+function createPromise(val) {
+	return new Promise(res => {
+        setTimeout(() => {
+            res(val)
+        }, 1000)
+    })
+}
+
+(async function() {
+    const p1 = createPromise(100)
+    const p2 = createPromise(200)
+    const p3 = createPromise(300)
+    const list = [p1, p2, p3]
+    // Promise.all
+    Promise.all(list).then(res => console.log(res))
+    // for await of
+    for await(let res of list) {
+        console.log(res)
+    }
+})()
+```
+
+- 应用场景：
+
+> ​	如：用户批量上传图片，一个一个上传
 
 ## forEach和map方法有什么区别
 
@@ -281,14 +331,25 @@ console.log('script end')
 
 > 总结：微任务和宏任务的执行顺序是先执行同步任务，先执行同步后异步，异步分为宏任务和微任务两种，异步遇到微任务先执行微任务，执行完后如果没有微任务，就执行下一个宏任务。
 
-## 垃圾回收机制
+## 垃圾回收机制（GC）
 
 **垃圾回收**：JavaScript代码运行时，需要分配内存空间来储存变量和值。当变量不在参与运行时，就需要系统收回被占用的内存空间，这就是垃圾回收。
 
 **回收方式**：
 
-- 标记清除
-- 引用计数
+- 标记清除（现代）
+
+遍历 window 对象，没有引用的就清除
+
+- 引用计数（早期浏览器所使用的算法）
+
+```js
+// IE6-7 内存泄漏 bug
+// 循环引用
+var div1 = document.getElementById('div')
+div1.a = div1
+div.someBigData = {}
+```
 
 ## 导致内存泄漏的情况
 
@@ -296,6 +357,22 @@ console.log('script end')
 - 被遗忘的计时器或回调函数
 - 脱离DOM的引用
 - 闭包
+
+## 弱引用 WeakMap 和 WeakSet
+
+1. WeakSet
+
+- 只能存放对象类型，不能存放基本数据类型
+- 对元素的引用是弱引用，如果没有其他引用对某个对象进行引用，那么GC可以对该对象进行回收
+- 常见的方法：add、delete、has
+
+2. WeakMap
+
+- WeakMap的key只能使用对象，不接受其他的类型作为key
+- WeakMap的key对对象想的引用是弱引用，如果没有其他引用引用这个对象，那么GC可以回收该对象
+- 常见的方法：set、get、has、delete
+
+> WeakSet 和 WeakMap 都不可以遍历
 
 ## ES6 Module和CommonJS的异同
 
@@ -337,14 +414,55 @@ console.log('script end')
 ## 跨域
 
 1. JSONP：通过动态创建 script，再请求一个带参网址实现跨域通信。
+
+```html
+<!-- 网页a -->
+<script>
+	window.onSuccess = function(data) {
+        console.log(data)
+    }
+</script>
+<script src="https://www.xxx.com/api/getData"></script>
+```
+
+```js
+// https://www.xxx.com/api/getData 返回一段字符串
+'onSuccess({ errno: 0, data: { /* 数据内容*/ } })'
+```
+
 2. document.domain + iframe 跨域
+
 3. location.hash + iframe 跨域
+
 4. window.name + iframe 跨域
+
 5. postMessage 跨域
+
 6. CORS：服务端设置 Access-Control-Allow-Origin 即可，前端无须设置，若要带 cookie 请求，前后端都需要设置。
+
+```js
+// 服务端
+response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000") // 或者 '*' 允许所有
+response.setHeader("Access-Control-Allow-Headers", "X-Requested-With")
+response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS")
+response.setHeader("Access-Control-Allow-Credentials", "true") // 允许跨域接收 cookie
+```
+
 7. 代理跨域：启一个代理服务器，实现数据的转发
 
+## http跨域时为什么要发送options请求
+
+- options请求，是跨域请求之前的预检查
+- 浏览器自行发起的，无需我们干预
+- 不会影响实际的功能
+
 ## ajax、axios、fetch的区别
+
+### 从不同维度上
+
+- Ajax 是一种技术统称
+- Fetch 是一个具体的 API
+- Axios 是一个第三方库
 
 ### ajax
 
@@ -386,6 +504,33 @@ Axios 是一种基于Promise封装的HTTP客户端，其特点如下：
 - 自动转换json数据
 - 客户端支持抵御XSRF攻击
 
+### 用法
+
+1. ajax
+
+```js
+const ajax = function(url, cb) {
+    const xhr = new XMLHttpRequest()
+    xhr.open('get', url, false)
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                cb(xhr.responseText)
+            }
+        }
+    }
+    xhr.send(null)
+}
+```
+
+2. fetch
+
+```js
+const fetch = function(url) {
+    return fetch(url).then(res => res.json())
+}
+```
+
 ## 深拷贝
 
 ```js
@@ -400,3 +545,54 @@ const clone = (target) => {
 }
 ```
 
+## 防抖和节流
+
+### 区别
+
+- 防抖：限制执行次数，多次密集的触发只执行一次
+- 节流：限制执行频率，有节奏的执行
+- 节流关注“过程”，防抖关注“结果”
+
+### 实现
+
+- 防抖
+
+```js
+const debounce = (fn, delay = 100) => {
+    let timer = 0
+    return function() {
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(() => {
+            fn.apply(this, argments)
+            timer = 0
+        }, delay)
+    }
+}
+```
+
+- 节流
+
+```js
+const throttle = function(fn, delay = 100) {
+    let timer = 0
+    return function() {
+        if (timer) return
+        timer = setTimeout(() => {
+            fn.apply(this, argments)
+            timer = 0
+        }, delay)
+    }
+}
+```
+
+### 使用场景
+
+- 防抖
+  - 搜索框
+  - resize，不断调整窗口大小
+  - ...
+- 节流
+  - 拖拽
+  - 鼠标不断点击触发
+  - 监听滚动
+  - ...
