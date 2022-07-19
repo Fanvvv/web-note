@@ -20,6 +20,7 @@ export const interview = () => {
         { text: 'css', link: '/interview/css' },
         { text: 'js', link: '/interview/js' },
         { text: '计算机网络', link: '/interview/计算机网络' },
+        { text: '开发经验', link: '/interview/开发经验' },
       ]
     }
   ]
