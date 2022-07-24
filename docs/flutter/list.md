@@ -116,10 +116,10 @@ List<Widget> children = const <Widget>[],
 
 - ListTitle
 
-  - leading
+  - leading 图标
   - title 标题
   - subtitle 子标题
-  - trailing
+  - trailing 尾部图标
   - selected 选中的元素
 
 ```dart
