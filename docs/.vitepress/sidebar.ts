@@ -38,6 +38,7 @@ export const flutter = () => {
         { text: '按钮', link: '/flutter/button' },
         { text: '图片', link: '/flutter/image' },
         { text: '列表', link: '/flutter/list' },
+        { text: '第三方库组件', link: '/flutter/otherWidget' },
         { text: '状态管理', link: '/flutter/state' },
         { text: '路由', link: '/flutter/route' },
       ]
