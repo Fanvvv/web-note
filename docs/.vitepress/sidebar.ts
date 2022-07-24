@@ -34,6 +34,7 @@ export const flutter = () => {
         { text: '初始化项目', link: '/flutter/init' },
         { text: '组件Widget', link: '/flutter/widget' },
         { text: '文本', link: '/flutter/text' },
+        { text: '页面布局', link: '/flutter/layout' },
         { text: '按钮', link: '/flutter/button' },
         { text: '图片', link: '/flutter/image' },
         { text: '状态管理', link: '/flutter/state' },
