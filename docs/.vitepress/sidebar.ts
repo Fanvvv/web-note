@@ -25,3 +25,30 @@ export const interview = () => {
     }
   ]
 }
+
+export const flutter = () => {
+  return [
+    {
+      text: 'Flutter基础',
+      items: [
+        { text: '初始化项目', link: '/flutter/init' },
+        { text: '组件Widget', link: '/flutter/widget' },
+        { text: '文本', link: '/flutter/text' },
+        { text: '按钮', link: '/flutter/button' },
+        { text: '图片', link: '/flutter/image' },
+        { text: '状态管理', link: '/flutter/state' },
+        { text: '路由', link: '/flutter/route' },
+      ]
+    },
+    {
+      text: 'Flutter实战',
+      items: [
+        { text: 'Tab导航', link: '/flutter/sz_nav' },
+        { text: 'Fluro路由', link: '/flutter/sz_route' },
+        { text: '状态管理', link: '/flutter/sz_state' },
+        { text: '接口调用', link: '/flutter/sz_dio' },
+        { text: '首页', link: '/flutter/sz_home' },
+      ]
+    },
+  ]
+}

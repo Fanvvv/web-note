@@ -16,6 +16,12 @@ export const nav = () => {
         { text: 'React的一些内置Hooks', link: '/react/hooks' },
       ]
     },
+    { 
+      text: 'Flutter',
+      items: [
+        { text: 'Flutter基础', link: '/flutter/init' },
+      ]
+    },
     // { 
     //   text: 'Node',
     //   link: '/node'
