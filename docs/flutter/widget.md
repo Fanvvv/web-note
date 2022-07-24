@@ -92,3 +92,15 @@ Scaffold 是 Flutter 应用的脚手架。用来搭建 Flutter 项目的基本�
 - backgroundColor： 内容的背景颜色，默认使用的是 ThemeData.scaffoldBackgroundColor 的值 
 - bottomNavigationBar： 显示在页面底部的导航栏 
 - resizeToAvoidBottomPadding 类似于 Android 中的 android:windowSoftInputMode=”adjustResize”，控制界面内容 body 是否 重新布局来避免底部被覆盖了，比如当键盘显示的时候，重新布局避免被键盘盖住内容。默认值为 true
+
+## 其他组件
+
+### Cupertino
+
+material.dart 提供了 Android 风格的组件；而 Cupertino 提供了 iOS 风格的组件。
+
+Cupertino 详情：[https://flutter.dev/docs/development/ui/widgets/cupertino](https://flutter.dev/docs/development/ui/widgets/cupertino)
+
+### SafeArea 
+
+SafeArea 主要用来解决刘海屏的问题。
