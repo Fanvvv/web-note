@@ -41,6 +41,7 @@ export const flutter = () => {
         { text: '第三方库组件', link: '/flutter/otherWidget' },
         { text: '状态管理', link: '/flutter/state' },
         { text: '路由', link: '/flutter/route' },
+        { text: '导航', link: '/flutter/nav' },
       ]
     },
     {
