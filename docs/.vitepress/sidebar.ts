@@ -42,6 +42,7 @@ export const flutter = () => {
         { text: '状态管理', link: '/flutter/state' },
         { text: '路由', link: '/flutter/route' },
         { text: '导航', link: '/flutter/nav' },
+        { text: '表单', link: '/flutter/form' },
       ]
     },
     {
