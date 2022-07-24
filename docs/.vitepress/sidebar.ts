@@ -53,6 +53,7 @@ export const flutter = () => {
         { text: '状态管理', link: '/flutter/sz_state' },
         { text: '接口调用', link: '/flutter/sz_dio' },
         { text: '首页', link: '/flutter/sz_home' },
+        { text: '登录', link: '/flutter/sz_login' },
       ]
     },
   ]
