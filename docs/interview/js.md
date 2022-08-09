@@ -541,6 +541,30 @@ response.setHeader("Access-Control-Allow-Credentials", "true") // 允许跨域�
 - 浏览器自行发起的，无需我们干预
 - 不会影响实际的功能
 
+## 实现一个Ajax请求
+
+- 创建一个XMLHttpRequest对象
+- 调用这个对象的open()方法,规定请求方式和请求地址
+- 设置一个请求头（post请求）
+- 设置请求成功后要调用的回调函数
+- 调用这个对象的send()方法,完成发送
+
+```js
+// 简易实现
+const ajax = function(url, cb) {
+    const xhr = new XMLHttpRequest()
+    xhr.open('get', url, false)
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                cb(xhr.responseText)
+            }
+        }
+    }
+    xhr.send(null)
+}
+```
+
 ## ajax、axios、fetch的区别
 
 ### 从不同维度上
@@ -615,6 +639,43 @@ const fetch = function(url) {
     return fetch(url).then(res => res.json())
 }
 ```
+
+## axios拦截器
+
+- 作用：
+  - Axios 是一个基于 promise 的 HTTP 库，支持promise所有的API
+  - 可以拦截请求和响应
+  - 可以转换请求数据和响应数据，并对响应回来的内容自动转换成 JSON类型的数据
+  - 安全性更高
+- 相关配置：
+  - url：请求的服务器地址
+  - method：请求方法
+  - baseURL：基准路径
+  - headers：请求头
+  - parmas：路径参数
+- 做了什么：
+  - 请求拦截器：
+    - 在请求发送前进行的操作，如：每个请求体里加上token
+  - 响应拦截器：
+    - 接收到响应后进行的操作，如：服务器返回的登录状态失效，就跳转到登录页
+
+## token 失效处理
+
+- 第一种方案是：服务器端保存token状态，用户每次操作都会自动推迟token的过期时间，session就是采用这种策略保持token的有效期，但是当前后端分离，单页面的时候，每秒钟的请求发起多次，每次都去刷新一下过期时间会非常消耗性能的；
+- 第二种方案：使用refresh token，避免频繁的刷新token，此时服务端只要在token过期的时候反馈给前端，前端使用refresh token申请一个全新的token继续使用即可
+
+## 事件对象和事件委托
+
+- 事件对象：
+  - 一个函数或者方法都会带有一个事件对象参数
+  - 事件对象.target是获取最先触发的元素
+  - 事件对象有两种公共的方法：
+    - .preventDefault() 阻止默认行为
+    - .stopPropagation()阻止冒泡
+- 事件委托：
+  - 可以把事件处理器添加到一个上级元素上，避免把事件处理器添加到多个子元素上，提高性能
+  - 还可以预测未来，动态添加的元素仍然可以触发该事件
+  - 主要依靠的就是事件冒泡，也就是当一个元素接收到事件的时候，会把他接收到的事件传给自己的父级，一直到window
 
 ## 深拷贝和浅拷贝
 
