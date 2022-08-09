@@ -57,6 +57,14 @@ Object.keys(obj).length
 
 这三个最明显的区别是 var 声明的变量是全局或者整个函数块的，而 let、const 声明的变量是块级的变量，var 声明的变量存在变量提升，let、const 不存在，let 声明的变量允许重新赋值，const 不允许。
 
+## 作用域
+
+- 指变量的有效范围
+- 有三种：
+  - 全局作用域：最外层函数定义的变量拥有全局作用域，即对任何内部函数来说，都是可以访问的
+  - 局部作用域：局部作用域一般只在固定的代码片段内可访问到，而对于函数外部是无法访问的，最常见的例如函数内部
+  - 块级作用域： 凡是代码块就可以划分变量的作用域
+
 ## 箭头函数与普通函数的区别
 
 - **箭头函数比普通函数更加简洁**
@@ -207,14 +215,18 @@ function createPromise(val) {
 
 ## forEach和map方法有什么区别
 
+相同点：循环数组每一项，且都有三个参数，分别是item、index、array，只是遍历数组，不会改变原数组
+
 这些方法都是用来遍历数组的，两者区别如下：
 
-- forEach()方法会针对每一个元素执行提供的函数，对数据的操作会改变原数组，该方法没有返回值；
+- forEach()方法是将数组中的每一项作为回调函数的参数进行处理，对数据的操作会改变原数组，该方法没有返回值；
 - map()方法不会改变原数组的值，返回一个新数组，新数组中的值为原数组调用函数处理之后的值；
 
 ## 原型和原型链
 
 ### 原型
+
+所有引用类型都有一个\_\_proto\_\_属性，所有的函数都有一个prototype属性，所有引用类型的\_\_proto\_\_属性指向它构造函数的prototype属性
 
 - 隐式原型：`__proto__`
 - 显式原型：`prototype`
@@ -230,6 +242,8 @@ function createPromise(val) {
 > 引用类型：Object、Array、Function、Date、RegExp
 
 ### 原型链
+
+当访问一个对象的某个属性时，会先在这个对象本身属性上查找，如果没有找到，就会去它的\_\_proto\_\_属性上查找，即他的构造函数的prototype，如果还没找到就会继续找他的构造函数的prototype属性，这样一层一层向上查找就会形成一个链式结构，即原型链
 
 实例对象 = new 构造函数
 
@@ -263,6 +277,11 @@ arr instanceof Object // true
 
 闭包就是能够读取其他函数内部变量的函数，或者子函数在外调用，子函数所在的父函数的作用域不会被释放。
 
+本质上是在函数内部和函数外部搭建一座桥梁，让子函数可以访问父函数中的局部变量；
+
+- 好处就是可以保护变量不受外界污染
+- 缺点就是常驻内存，消耗性能，所以开发中很少使用闭包
+
 ## this
 
 - 函数调用，this指向全局对象
@@ -275,6 +294,26 @@ arr instanceof Object // true
 - apply：第一个参数指定了函数体内 this 对象的指向，第二个参数为一个带下标的集合，这个集合可以为数组，也可以为类数组，apply 方法把这个集合中的元素作为参数传递给被调用的函数。
 - call 传入的参数数量不固定，跟 apply 相同的是，第一个参数也是代表函数体内的 this 指向，从第二个参数开始往后，每个参数被依次传入函数。
 
+## new 操作符具体过程
+
+- 创建一个空对象
+- 将函数的this指向给这个空对象
+- 执行函数代码
+- 返回该对象
+
+## js 的继承
+
+- **原型链继承**：让新实例的原型等于父实例
+  - 可继承：实例的构造函数的属性，父类构造函数属性，以及父类原型的属性
+  - 不可继承：父类实例的属性
+- **借用构造函数继承**：使用 apply()和 call()方法将父类构造函数引入子类函数
+  - 可继承：父类构造函数的属性
+  - 不可继承父类原型的属性
+- **组合继承**：将原型链和借用构造函数的技术组合在一块，从而发挥两者之长的一种继承模式
+- **原型式继承**：借助原型可以基于已有的对象创建新对象，类似复制了一个对象
+- **寄生式继承**：就是给原型式继承外面套个壳子，没用到原型
+- **寄生组合式继承**：通过借用函数来继承属性，通过原型链的混成形式来继承方法（常用）
+
 ## 异步编程的实现
 
 - 回调函数
@@ -285,6 +324,14 @@ arr instanceof Object // true
 ## Promise
 
 Promise本身是**同步的立即执行函数**， 当在executor中执行resolve或者reject的时候, 此时是异步操作， 会先执行then/catch等，当主栈完成后，才会去调用resolve/reject中存放的方法执行，打印p的时候，是打印的返回结果，一个Promise实例。
+
+- 异步编程的解决方案，用来解决回调地狱问题
+- 有三种状态：pending(进行中)、fulfilled(已成功)和rejected(已失败)
+- 基本用法是new Promise()传入一个函数，函数里面有两个参数，一个是resolve成功的回调，一个是reject失败的回调
+- new出来的promise实例有三个方法：参数都是一个数组
+  - all：如果数组里面所有promise都resolve就进入then方法，有一个reject就进入catch 
+  - allSettled：在then方法中返回所有的promise数组结果，不管是成功的还是失败的
+  - race：数组中的promise哪个先返回结果就使用哪个的结果
 
 ```js
 console.log('script start')
@@ -305,6 +352,13 @@ console.log('script end')
 ## await/async
 
 async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再执行函数体内后面的语句。可以理解为，是让出了线程，跳出了 async 函数体。
+
+- 是异步代码的新方式
+- 基于promise实现的
+- 使异步代码更像同步代码
+- await 只能在async函数中使用，不能在普通函数中使用，要成对出现
+- 默认返回一个promise实例，不能被改变
+- await下面的代码是异步，后面的代码是同步的
 
 ```js
 async function async1(){
@@ -358,6 +412,11 @@ div.someBigData = {}
 - 脱离DOM的引用
 - 闭包
 
+## Set 和 Map 的区别
+
+- set用于数据重组，成员不重复，一般用于数组去重，类似于数组，只有键值，没有键名，可以遍历
+- map用于数据存储，是键值对的集合，可以遍历，可以跟各种数据格式转换
+
 ## 弱引用 WeakMap 和 WeakSet
 
 1. WeakSet
@@ -385,6 +444,25 @@ div.someBigData = {}
 
 - CommonJS和ES6 Module都可以对引⼊的对象进⾏赋值，即对对象内部属性的值进⾏改变。
 
+## Webpack
+
+- 定义：是一个打包模块化的工具，在webpack中一切文件皆为模块，通过loader转换文件，通过plugin注入钩子，最后输出由多个模块组合成的文件
+- 作用：由于浏览器对于js中的很多代码不可以直接进行解析读取，这个时候需要先通过 wabpack 把资源进行打包，解析成浏览器可以识别的代码
+- 配置：
+  - 入口：指示webpack使用哪个模块作为构建其内部依赖图的开始，默认值是：‘./src/index.js’
+  - 出口：告诉webpack在哪里输出它所创建的bundle，以及如何命名这些文件，主要输出文件的默认值是‘./dist/main.js’
+  - mode：配置模式，development(开发环境)、production(生产环境)、none(不使用任何默认优化选项)
+  - loader：自带能力，用于转换某些类型的模块
+  - plugin：打包优化，资源管理，注入环境变量等
+- 流程：
+  - 初始化参数
+  - 开始编译
+  - 确定入口
+  - 编译
+  - 完成模块编译
+  - 输出资源
+  - 输出完成
+
 ## Webpack常见的Loader和Plugin
 
 ### Loader
@@ -409,9 +487,20 @@ div.someBigData = {}
 - uglifyjs-webpack-plugin：通过 UglifyES 压缩 ES6 代码 
 - webpack-parallel-uglify-plugin: 多核压缩，提⾼压缩速度 
 - webpack-bundle-analyzer: 可视化webpack输出⽂件的体积 
-- mini-css-extract-plugin: CSS提取到单独的⽂件中，⽀持按需加载 
+- mini-css-extract-plugin: CSS提取到单独的⽂件中，⽀持按需加载
+
+## 常见的 HTTP 状态码
+
+- **2xx**请求成功
+- **3xx**重定向
+- **4xx**客户端错误，一般是语法错误或者请求无法实现 --- 403 禁止访问 --- 404 找不到地址的匹配页面
+- **5xx**服务器端错误
 
 ## 跨域
+
+- 定义：浏览器执行脚本时会检查是否同源，只有同源才会执行，不同源即为跨域
+- 这里的同源是指访问的协议、域名、端口都相同
+- 解决办法
 
 1. JSONP：通过动态创建 script，再请求一个带参网址实现跨域通信。
 
@@ -431,13 +520,9 @@ div.someBigData = {}
 ```
 
 2. document.domain + iframe 跨域
-
 3. location.hash + iframe 跨域
-
 4. window.name + iframe 跨域
-
 5. postMessage 跨域
-
 6. CORS：服务端设置 Access-Control-Allow-Origin 即可，前端无须设置，若要带 cookie 请求，前后端都需要设置。
 
 ```js
@@ -448,7 +533,7 @@ response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS"
 response.setHeader("Access-Control-Allow-Credentials", "true") // 允许跨域接收 cookie
 ```
 
-7. 代理跨域：启一个代理服务器，实现数据的转发
+7. 代理跨域：启一个代理服务器，实现数据的转发，如基于webpack中的webpack.config.js文件中在devServer对象中配置通过proxy
 
 ## http跨域时为什么要发送options请求
 
@@ -531,9 +616,18 @@ const fetch = function(url) {
 }
 ```
 
-## 深拷贝
+## 深拷贝和浅拷贝
+
+- **浅拷贝**：将值复制一份，如果是基本类型数据就拷贝的就是基本类型的值，互不影响，但是如果有引用类型的数据则拷贝的是其地址，改变一个，另一个随之改变；可以用展开运算符进行浅拷贝
+  - Object.assign()
+  - Array.prototype.concat()
+  - Array.prototype.slice()
+  - 扩展运算符
+- **深拷贝**：就是内存中开辟一块新地址，完整拷贝一份到新地址中，如果修改一个另一个则不会受到影响；可以用递归的方式进行深拷贝，如果只是一些字符串或者数字类的，可以用JSON的方式进行转换
+  - JSON.parse(JSON.stringify())
 
 ```js
+// 手写深拷贝
 const obj = {}
 const clone = (target) => {
     if (typeof target !== 'object') return target
@@ -546,6 +640,9 @@ const clone = (target) => {
 ```
 
 ## 防抖和节流
+
+- **防抖**是合并成一次进行，通过一个计时器来控制，如果在规定时间内再次触发，则取消之前的计时器重新计时，类似于游戏中的回城事件
+- **节流**是不管触发事件多么频繁，只有在规定时间后才可触发第二次，类似于游戏中的大招技能释放，一般搜索框会做节流事件，减少请求次数，优化性能
 
 ### 区别
 
