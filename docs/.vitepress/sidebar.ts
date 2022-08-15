@@ -23,6 +23,7 @@ export const interview = () => {
         { text: 'vue3', link: '/interview/vue3' },
         { text: '移动端和小程序', link: '/interview/移动端和小程序' },
         { text: '计算机网络', link: '/interview/计算机网络' },
+        { text: '手写代码', link: '/interview/手写代码' },
         { text: '项目描述', link: '/interview/项目描述' },
         { text: '开发经验', link: '/interview/开发经验' },
         { text: '面试技巧', link: '/interview/面试技巧' },
