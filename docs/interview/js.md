@@ -664,6 +664,14 @@ const fetch = function(url) {
 - 第一种方案是：服务器端保存token状态，用户每次操作都会自动推迟token的过期时间，session就是采用这种策略保持token的有效期，但是当前后端分离，单页面的时候，每秒钟的请求发起多次，每次都去刷新一下过期时间会非常消耗性能的；
 - 第二种方案：使用refresh token，避免频繁的刷新token，此时服务端只要在token过期的时候反馈给前端，前端使用refresh token申请一个全新的token继续使用即可
 
+## 双 token 方案
+
+- 用户在登录之后返回access_token和refresh_token（这里假定他们的有效期分别是2小时和7天）
+- 当access_token未过期时，则请求正常
+- 当access_token过期了，此时服务端会返回过期提示给到客户端，客户端收到过期提示后，使用refresh_token去获取新的access_token和refresh_token(此时他们的有效期就又变为2小时和7天，旧的自然失效)
+- 当refresh_token也过期了，使用它去获取新access_token时服务端就会返回过期提示，那么此时就应该让用户重新登录了
+- 每次使用access_token时，都会更新refresh_token的有效期
+
 ## 事件对象和事件委托
 
 - 事件对象：
