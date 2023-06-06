@@ -10,6 +10,28 @@
 - 模板编译时会把一些静态的节点转换为常量
 - 监听的目标为对象本身，不需要像vue2采用Object.definePriperty遍历每一个属性，有一定的性能优化
 
+### 从 API 特性方面
+
+1. `Composition API`
+2. `setup` 语法糖
+3. `Teleport` 传送门
+4. `Fragments` 支持多根节点
+5. `SFC CSS` 变量，支持 `v-bind` 绑定 css 变量
+
+### 从框架设计层面
+
+1. 代码打包体积更小了
+2. 响应式的优化，用 `Proxy` 代替 `Object.defineProperty`
+3. 虚拟 DOM 的优化：`静态提升`、添加`更新类型标记`
+4. Diff 算法的优化：使用 `最长递增子序列` 优化了对比流程
+
+### 其他方面
+
+1. `Vue3` 不兼容 `IE11`，因为`IE11`不兼容`Proxy`
+2. `v-if`的优先级高于`v-for`
+3. `vue3`中`v-model`可以以`v-model:xxx`的形式使用多次，而`vue2`中只能使用一次；多次绑定需要使用`sync`
+4. `vue3` 能更好的与 `TS` 结合
+
 ## vue3 生命周期函数
 
 除了`beforecate`和`created`(它们被`setup`方法本身所取代)
@@ -35,3 +57,28 @@
 - `beforeDestroy` -> `onBeforeUnmount`
 - `destroyed` -> `onUnmounted`
 - `errorCaptured` -> `onErrorCaptured`·····
+
+## Vue3 组件通信
+
+1. Props
+
+2. emits
+
+3. expose / ref
+
+4. $attrs 子组件多根节点的话，可以使用 v-bind 来绑定
+
+5. v-model，vue3 可以绑定多个，比如：
+
+   ```vue
+   <Child v-model:msg1="message1" v-model:msg2="message2" />
+   ```
+
+6. provide / inject
+
+7. 事件总线 eventBus： `$on` 注册事件，`$emit` 调用事件，`$off` 销毁事件
+
+8. vuex
+
+## Vue2 和 Vue3 中 v-model 的区别
+

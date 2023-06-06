@@ -299,3 +299,38 @@ directives: {
 - 定义：多个组件使用同一个挂载点，并动态切换
 
 - 使用：\<component :is="componentName">\</component>，当控制 componentName 改变时就可以动态切换选择组件
+
+## Vue 子组件和父组件执行顺序
+
+加载渲染过程：
+
+1. beforeCreate(父)
+2. created(父)
+3. beforeMount(父)
+4. beforeCreate(子)
+5. created(子)
+6. beforeMount(子)
+7. mounted(子)
+8. mounted(父)
+
+更新过程：
+
+1. beforeUpdate(父)
+2. beforeUpdate(子)
+3. updated(子)
+4. updated(父)
+
+销毁过程：
+
+1. beforeDestroy(父)
+2. beforeDestroy(子)
+3. destroyed(子)
+4. destoryed(父)
+
+## Vue 首屏优化如何处理
+
+1. vue-router 路由懒加载
+2. npm run build --report 分析哪个包大，在 webpack 中配置使用 CDN 的方式加载第三方包
+3. 图片资源的压缩，icon资源使用精灵图（雪碧图）
+4. 开启 gzip 压缩
+5. webpack 中使用插件压缩 js 文件和压缩 css 文件
