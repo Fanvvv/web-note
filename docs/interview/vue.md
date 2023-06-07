@@ -1,8 +1,16 @@
 # Vue2
 
-## Vue2 数据双向绑定的原理
+## Vue2 数据响应式的原理
 
-Vue是结合发布者-订阅者模式，通过 Object.defineProperty()为各个属性定义get、set特性方法，在数据发生改变时给订阅者发布消息，触发相应的监听回调，更新dom
+Vue是结合发布者-订阅者模式，通过 Object.defineProperty()为各个属性定义getter、setter 特性方法，在数据发生改变时给订阅者发布消息，触发相应的监听回调，更新dom。
+
+1. vue类接收初始化的参数，获取参数中的data属性保存到 $data 中，类中有一个 `_proxyData` 的私有方法，可以将 data 中的属性使用 `Object.defineProperty` 转换成 `getter` 和 `setter`，注入到 vue 实例中。
+2. 调用 `Observer` 对象，监听数据的变化，里面有一个 `walk` 方法和一个 `defineReactive` 方法，可以将 `$data` 中的数据也转换为 `getter` 和 `setter`，`walk` 中遍历 data 对象中的所有属性，将 data 和其 `key` 、`value` 都传入到`defineReactive` 方法中，`defineReactive` 方法中 `get` 的时候收集依赖，添加观察者， `set` 的时候发送通知，更新视图
+3. 调用 `compiler` 对象，解析指令和插值表达式。
+4. `Dep` 类（发布者）中 `addSub` 方法用于添加观察者，`notify` 方法用于发送通知，`Watcher` 类（订阅者）中 `update` 方法用于当数据变化时，赋值新值，调用 callback 更新视图。
+5. 在  `compiler`  类中，也需要创建 `Watcher` 对象来更新视图。
+
+![](https://picbed-1258935921.cos.ap-guangzhou.myqcloud.com/20230607111024.png)
 
 ## Vue2 生命周期
 
