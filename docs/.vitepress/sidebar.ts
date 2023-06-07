@@ -28,6 +28,7 @@ export const interview = () => {
         { text: '项目描述', link: '/interview/项目描述' },
         { text: '开发经验', link: '/interview/开发经验' },
         { text: '面试技巧', link: '/interview/面试技巧' },
+        { text: '面试复盘', link: '/interview/面试复盘' },
       ]
     }
   ]
