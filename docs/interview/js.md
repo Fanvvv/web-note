@@ -155,6 +155,12 @@ const map = [
 - 迭代方法：every、some、fliter、map、forEach
 - 归并方法：reduce、reduceRight
 
+## 数组的哪些方法会改变原数组，哪些不会
+
+会改变原数组：push、unshift、pop、shift、sort、splice、reverse
+
+不会改变原数组：concat、join、reduce、map、forEach、filter、slice、indexOf
+
 ## 数组的遍历方法有哪些
 
 | **方法**                  | **是否改变原数组** | **特点**                                                     |
