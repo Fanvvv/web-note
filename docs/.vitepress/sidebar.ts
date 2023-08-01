@@ -21,6 +21,8 @@ export const interview = () => {
         { text: 'js', link: '/interview/js' },
         { text: 'vue', link: '/interview/vue' },
         { text: 'vue3', link: '/interview/vue3' },
+        { text: 'node.js', link: '/interview/nodejs' },
+        { text: 'MySQL', link: '/interview/MySQL' },
         { text: '移动端和小程序', link: '/interview/移动端和小程序' },
         { text: '计算机网络', link: '/interview/计算机网络' },
         { text: '前端工程化', link: '/interview/前端工程化' },
