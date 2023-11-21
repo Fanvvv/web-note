@@ -86,6 +86,39 @@ BFC是一个独立的布局环境，可以理解为一个容器，在这个容�
 - **行内元素**：span、a、b、img、input、button、textarea等
 - 区别是块级元素独占一行，可以设置宽高属性
 
+## CSS元素哪些可以继承
+
+- 文本样式
+- 字体样式
+- 元素可见性
+- 表格布局属性
+- 列表布局属性
+
+## 如何简单实现 0.5px 边框
+
+使用 `box-shadow`
+
+```css
+.box {
+    width: 100px;
+    height: 100px;
+    box-shadow: 0 0 0 0.5px #ccc;
+}
+```
+
+## 文本溢出省略
+
+```css
+.box {
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+```
+
+
+
 ## 重绘和回流
 
 ### 重绘
