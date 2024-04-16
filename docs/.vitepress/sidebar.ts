@@ -1,3 +1,14 @@
+export const js = () => {
+  return [
+    {
+      text: 'Js',
+      items: [
+        { text: '异步编程', link: '/JS/async-programming' },
+      ]
+    }
+  ]
+}
+
 export const vue3 = () => {
   return [
     {
