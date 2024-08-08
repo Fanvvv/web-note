@@ -16,10 +16,14 @@ export default {
     },
     nav: nav(),
     sidebar: {
-      '/js/': js(),
+      '/JS/': js(),
       '/vue3/': vue3(),
       '/interview/': interview(),
       '/flutter': flutter()
+    },
+    outline: {
+      level: 'deep',
+      label: '目录'
     }
-  }
+  },
 }

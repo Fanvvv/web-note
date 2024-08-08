@@ -1,8 +1,9 @@
 export const js = () => {
   return [
     {
-      text: 'Js',
+      text: '重学Js',
       items: [
+        { text: '事件', link: '/JS/events' },
         { text: '异步编程', link: '/JS/async-programming' },
       ]
     }

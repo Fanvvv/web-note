@@ -1,10 +1,8 @@
 export const nav = () => {
   return [
     { 
-      text: 'Js',
-      items: [
-        { text: '异步编程', link: '/JS/async-programming' },
-      ]
+      text: '重学Js',
+      link: '/JS/events'
     },
     { 
       text: 'Vue',
