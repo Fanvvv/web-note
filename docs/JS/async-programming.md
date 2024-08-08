@@ -442,13 +442,10 @@ p4.then(
 对 promise 实例状态和值进行分析
 
 - 第一种情况：`new Promise` 出来的实例
-
-- - resolve/reject 的执行控制其状态`[[PromiseState]]`以及`[[PromiseResult]]`
+  - resolve/reject 的执行控制其状态`[[PromiseState]]`以及`[[PromiseResult]]`
   - executor 函数执行失败控制其 `[[PromiseState]]=rejected` & `[[PromiseResult]]=报错信息`
-
 - 第二种情况：`.then` 返回的新实例
-
-- - then 注入的两个方法，不论哪个方法执行，只要执行不报错，新实例的状态就是`fulfilled`；只要执行报错，新实例的状态就是`rejected`；并且新实例的`[[PromiseResult]]`是方法返回的值
+  - then 注入的两个方法，不论哪个方法执行，只要执行不报错，新实例的状态就是`fulfilled`；只要执行报错，新实例的状态就是`rejected`；并且新实例的`[[PromiseResult]]`是方法返回的值
   - 但是如果方法执行返回的是一个新的`promise`实例，则此实例最后的成功或者失败，直接决定`.then`返回实例的成功和失败（得到的结果也都是一样的）
 
 #### 不捕获错误
