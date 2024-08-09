@@ -106,7 +106,45 @@ BFC是一个独立的布局环境，可以理解为一个容器，在这个容�
 }
 ```
 
+## 如何实现三角形
+
+### 实心三角形
+
+```css
+.border {
+  width: 0;
+  height: 0;
+  border-style:solid;
+  border-width: 0 50px 50px;
+  border-color: transparent transparent #d9534f;
+}
+```
+
+### 空心三角形
+
+```css
+.border {
+  width: 0;
+  height: 0;
+  border-style:solid;
+  border-width: 0 50px 50px;
+  border-color: transparent transparent #d9534f;
+  position: relative;
+}
+.border:after {
+  content: '';
+  border-style: solid;
+  border-width: 0 40px 40px;
+  border-color: transparent transparent #96ceb4;
+  position: absolute;
+  top: 6px;
+  left: -40px;
+}
+```
+
 ## 文本溢出省略
+
+### 单行文本溢出省略
 
 ```css
 .box {
@@ -117,7 +155,121 @@ BFC是一个独立的布局环境，可以理解为一个容器，在这个容�
 }
 ```
 
+### 多行文本溢出省略
 
+多行文本溢出的时候，我们可以分为两种情况：
+
+- 基于高度截断
+- 基于行数截断
+
+#### 基于高度截断
+
+核心的`css`代码结构如下：
+
+- position: relative：为伪元素绝对定位
+- overflow: hidden：文本溢出限定的宽度就隐藏内容）
+- position: absolute：给省略号绝对定位
+- line-height: 20px：结合元素高度,高度固定的情况下,设定行高, 控制显示行数
+- height: 40px：设定当前元素高度
+- ::after {} ：设置省略号样式
+
+```html
+<style>
+  .demo {
+    position: relative;
+    line-height: 20px;
+    height: 40px;
+    overflow: hidden;
+  }
+  .demo::after {
+    content: "...";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0 20px 0 10px;
+  }
+</style>
+
+<body>
+  <div class='demo'>这是一段很长的文本</div>
+</body>
+```
+
+实现原理很好理解，就是通过伪元素绝对定位到行尾并遮住文字，再通过 `overflow: hidden` 隐藏多余文字
+
+这种实现具有以下优点：
+
+- 兼容性好，对各大主流浏览器有好的支持
+- 响应式截断，根据不同宽度做出调整
+
+一般文本存在英文的时候，可以设置`word-break: break-all`使一个单词能够在换行时进行拆分
+
+#### 基于行数截断
+
+纯`css`实现也非常简单，核心的`css`代码如下：
+
+- -webkit-line-clamp: 2：用来限制在一个块元素显示的文本的行数，为了实现该效果，它需要组合其他的WebKit属性）
+- display: -webkit-box：和1结合使用，将对象作为弹性伸缩盒子模型显示
+- -webkit-box-orient: vertical：和1结合使用 ，设置或检索伸缩盒对象的子元素的排列方式
+- overflow: hidden：文本溢出限定的宽度就隐藏内容
+- text-overflow: ellipsis：多行文本的情况下，用省略号“…”隐藏溢出范围的文本
+
+```html
+<style>
+    p {
+        width: 400px;
+        border-radius: 1px solid red;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+<p>
+    这是一些文本这是一些文本这是一些文本这是一些文本这是一些文本
+    这是一些文本这是一些文本这是一些文本这是一些文本这是一些文本
+</p>
+```
+
+通过css + js 实现
+
+```css
+p {
+    position: relative;
+    width: 400px;
+    line-height: 20px;
+    overflow: hidden;
+
+}
+.p-after:after{
+    content: "..."; 
+    position: absolute; 
+    bottom: 0; 
+    right: 0; 
+    padding-left: 40px;
+    background: -webkit-linear-gradient(left, transparent, #fff 55%);
+    background: -moz-linear-gradient(left, transparent, #fff 55%);
+    background: -o-linear-gradient(left, transparent, #fff 55%);
+    background: linear-gradient(to right, transparent, #fff 55%);
+}
+```
+
+```js
+$(function(){
+ //获取文本的行高，并获取文本的高度，假设我们规定的行数是五行，那么对超过行数的部分进行限制高度，并加上省略号
+   $('p').each(function(i, obj){
+        var lineHeight = parseInt($(this).css("line-height"));
+        var height = parseInt($(this).height());
+        if((height / lineHeight) >3 ){
+            $(this).addClass("p-after")
+            $(this).css("height","60px");
+        }else{
+            $(this).removeClass("p-after");
+        }
+    });
+})
+```
 
 ## 重绘和回流
 
@@ -219,9 +371,261 @@ BFC是一个独立的布局环境，可以理解为一个容器，在这个容�
 }
 ```
 
-## css预处理器有什么用
+## 如何设置小于 12px 的文字
+
+- `zoom`：非标属性，有兼容问题，缩放会改变了元素占据的空间大小，触发重排
+- `-webkit-transform:scale()`：大部分现代浏览器支持，并且对英文、数字、中文也能够生效，缩放不会改变了元素占据的空间大小，页面布局不会发生变化
+- `-webkit-text-size-adjust:none`：对谷歌浏览器有版本要求，在27之后，就取消了该属性的支持，并且只对英文、数字生效
+
+### zoom
+
+- zoom:50%，表示缩小到原来的一半
+- zoom:0.5，表示缩小到原来的一半
+
+```css
+<style type="text/css">
+    .span1{
+        font-size: 12px;
+        display: inline-block;
+        zoom: 0.8;
+    }
+    .span2{
+        display: inline-block;
+        font-size: 12px;
+    }
+</style>
+<body>
+    <span class="span1">测试10px</span>
+    <span class="span2">测试12px</span>
+</body>
+```
+
+需要注意的是，`Zoom` 并不是标准属性，需要考虑其兼容性
+
+### -webkit-transform:scale()
+
+缩放
+
+```html
+<style type="text/css">
+    .span1{
+        font-size: 12px;
+        display: inline-block;
+        -webkit-transform:scale(0.8);
+    }
+    .span2{
+        display: inline-block;
+        font-size: 12px;
+    }
+</style>
+<body>
+    <span class="span1">测试10px</span>
+    <span class="span2">测试12px</span>
+</body>
+```
+
+### -webkit-text-size-adjust:none
+
+该属性用来设定文字大小是否根据设备(浏览器)来自动调整显示大小
+
+属性值：
+
+- percentage：字体显示的大小；
+- auto：默认，字体大小会根据设备/浏览器来自动调整；
+- none:字体大小不会自动调整
+
+```css
+html { 
+  -webkit-text-size-adjust: none; 
+}
+```
+
+这样设置之后会有一个问题，就是当你放大网页时，一般情况下字体也会随着变大，而设置了以上代码后，字体只会显示你当前设置的字体大小，不会随着网页放大而变大了
+
+所以，我们不建议全局应用该属性，而是单独对某一属性使用
+
+需要注意的是，自从`chrome 27`之后，就取消了对这个属性的支持。同时，该属性只对英文、数字生效，对中文不生效
+
+## 如何实现视差滚动效果
+
+视差滚动（Parallax Scrolling）是指多层背景以不同的速度移动，形成立体的运动效果，带来非常出色的视觉体验
+
+我们可以把网页解刨成：背景层、内容层、悬浮层
+
+![image.png](css.assets/1723086334390-ca8da009-de80-4578-b3e7-de094cbd62d1.png)
+
+使用`css`形式实现视觉差滚动效果的方式有：
+
+- background-attachment
+- transform:translate3D
+
+### background-attachment
+
+作用是设置背景图像是否固定或者随着页面的其余部分滚动
+
+值分别有如下：
+
+- scroll：默认值，背景图像会随着页面其余部分的滚动而移动
+- fixed：当页面的其余部分滚动时，背景图像不会移动
+- inherit：继承父元素background-attachment属性的值
+
+完成滚动视觉差就需要将`background-attachment`属性设置为`fixed`，让背景相对于视口固定。及时一个元素有滚动机制，背景也不会随着元素的内容而滚动
+
+也就是说，背景一开始就已经被固定在初始的位置
+
+完整代码案例
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>视差滚动</title>
+  <style>
+	div {
+	    height: 100vh;
+	    background: rgba(0, 0, 0, .7);
+	    color: #fff;
+	    line-height: 100vh;
+	    text-align: center;
+	    font-size: 20vh;
+	}
+
+	.a-img1 {
+	    background-image: url(https://images.pexels.com/photos/1097491/pexels-photo-1097491.jpeg);
+	    background-attachment: fixed;
+	    background-size: cover;
+	    background-position: center center;
+	}
+
+	.a-img2 {
+	    background-image: url(https://images.pexels.com/photos/2437299/pexels-photo-2437299.jpeg);
+	    background-attachment: fixed;
+	    background-size: cover;
+	    background-position: center center;
+	}
+
+	.a-img3 {
+	    background-image: url(https://images.pexels.com/photos/1005417/pexels-photo-1005417.jpeg);
+	    background-attachment: fixed;
+	    background-size: cover;
+	    background-position: center center;
+	}
+</style>
+</head>
+<body>
+	<div class="a-text">1</div>
+		<div class="a-img1">2</div>
+		<div class="a-text">3</div>
+		<div class="a-img2">4</div>
+		<div class="a-text">5</div>
+		<div class="a-img3">6</div>
+		<div class="a-text">7</div>
+	</div>
+</body>
+</html>
+```
+
+## 如何提高 CSS 的性能
+
+实现方式有很多种，主要有如下：
+
+- 内联首屏关键CSS
+- 异步加载CSS
+- 资源压缩：利用webpack 等模块化工具，对css进行压缩，从而加快加载速度
+- 合理使用选择器
+- 减少使用昂贵的属性
+- 不要使用@import
+
+### 内联首屏关键 css
+
+在打开一个页面，页面首要内容出现在屏幕的时间影响着用户的体验，而通过内联`css`关键代码能够使浏览器在下载完`html`后就能立刻渲染
+
+而如果外部引用`css`代码，在解析`html`结构过程中遇到外部`css`文件，才会开始下载`css`代码，再渲染
+
+所以，`CSS`内联使用使渲染时间提前
+
+注意：但是较大的`css`代码并不合适内联（初始拥塞窗口、没有缓存），而其余代码则采取外部引用方式
+
+### 异步加载 css
+
+- 使用javascript将link标签插到head标签最后
+
+```javascript
+// 创建link标签
+const myCSS = document.createElement( "link" );
+myCSS.rel = "stylesheet";
+myCSS.href = "mystyles.css";
+// 插入到header的最后位置
+document.head.insertBefore( myCSS, document.head.childNodes[ document.head.childNodes.length - 1 ].nextSibling );
+```
+
+- 设置link标签media属性为noexis，浏览器会认为当前样式表不适用当前类型，会在不阻塞页面渲染的情况下再进行下载。加载完成后，将`media`的值设为`screen`或`all`，从而让浏览器开始解析CSS
+
+```html
+<link rel="stylesheet" href="mystyles.css" media="noexist" onload="this.media='all'">
+```
+
+- 通过rel属性将link元素标记为alternate可选样式表，也能实现浏览器异步加载。同样别忘了加载完成之后，将rel设回stylesheet
+
+```html
+<link rel="alternate stylesheet" href="mystyles.css" onload="this.rel='stylesheet'">
+```
+
+### 合理使用选择器
+
+`css`匹配的规则是从右往左开始匹配，例如`#markdown .content h3`匹配规则如下：
+
+- 先找到h3标签元素
+- 然后去除祖先不是.content的元素
+- 最后去除祖先不是#markdown的元素
+
+如果嵌套的层级更多，页面中的元素更多，那么匹配所要花费的时间代价自然更高
+
+所以我们在编写选择器的时候，可以遵循以下规则：
+
+- 不要嵌套使用过多复杂选择器，最好不要三层以上
+- 使用id选择器就没必要再进行嵌套
+- 通配符和属性选择器效率最低，避免使用
+
+### 减少使用昂贵的属性
+
+在页面发生重绘的时候，昂贵属性如`box-shadow`/`border-radius`/`filter`/透明度/`:nth-child`等，会降低浏览器的渲染性能
+
+### 尽量不要使用@import
+
+css样式文件有两种引入方式，一种是`link`元素，另一种是`@import`
+
+`@import`会影响浏览器的并行下载，使得页面在加载时增加额外的延迟，增添了额外的往返耗时
+
+而且多个`@import`可能会导致下载顺序紊乱
+
+比如一个css文件`index.css`包含了以下内容：`@import url("reset.css")`
+
+那么浏览器就必须先把`index.css`下载、解析和执行后，才下载、解析和执行第二个文件`reset.css`
+
+### 其他
+
+- 减少重排操作，以及减少不必要的重绘
+- 了解哪些属性可以继承而来，避免对这些属性重复编写
+- cssSprite，合成所有icon图片，用宽高加上backgroud-position的背景图方式显现出我们要的icon图，减少了http请求
+- 把小的icon图片转成base64编码
+- CSS3动画或者过渡尽量使用transform和opacity来实现动画，不要使用left和top属性
+
+## css预处理器
 
 **预处理器**，如：`less`，`scss`，`stylus`，用来预编译`scss`或者`less`，增加了`css`代码的复用性。层级，`mixin`， 变量，循环， 函数等对编写以及开发UI组件都极为方便。
+
+### Scss 和 Less 的区别
+
+Scss 和 Less 都是 css 预处理器，它们的不同点：
+
+- 编译环境不一样：Less 是基于 js 的，是在客户端进行处理的，Scss 是基于 ruby 的，是在服务器端进行处理的
+- 变量符不一样：Less 使用`@` ，Scss 使用 `$`
+- 变量作用域不一样
+- Scss 支持 if-else、for，Less 不支持
+- 输出：Less 不支持输出设置，Scss提供四种输出选项：nested（嵌套缩进）、compact（展开多行）、compressed（简洁格式） 和 expanded（压缩后）。
 
 ## 响应式设计的概念及基本原理
 
