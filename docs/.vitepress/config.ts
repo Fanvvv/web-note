@@ -1,5 +1,5 @@
 import { nav } from './nav'
-import { vue3, interview, flutter, js } from './sidebar'
+import { vue3, interview, flutter, js, java, minivue3 } from './sidebar'
 
 export default {
   title: 'Web-Notes',
@@ -18,8 +18,10 @@ export default {
     sidebar: {
       '/JS/': js(),
       '/vue3/': vue3(),
+      '/vue3/minivue3/': minivue3(),
       '/interview/': interview(),
-      '/flutter': flutter()
+      '/flutter': flutter(),
+      '/java': java()
     },
     outline: {
       level: 'deep',

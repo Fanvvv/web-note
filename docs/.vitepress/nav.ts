@@ -8,6 +8,7 @@ export const nav = () => {
       text: 'Vue',
       items: [
         { text: 'Vue3基础', link: '/vue3/composition-api' },
+        { text: 'minivue3', link: '/vue3/minivue3/minivue3-v2vsv3' },
       ]
     },
     { 
@@ -26,6 +27,13 @@ export const nav = () => {
       text: 'Flutter',
       items: [
         { text: 'Flutter基础', link: '/flutter/init' },
+      ]
+    },
+    { 
+      text: 'Java',
+      items: [
+        { text: 'Maven', link: '/java/maven' },
+        { text: 'SpringBoot', link: '/java/SpringBoot基础' },
       ]
     },
     // { 

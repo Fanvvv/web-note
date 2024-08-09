@@ -5,6 +5,9 @@ export const js = () => {
       items: [
         { text: '事件', link: '/JS/events' },
         { text: '异步编程', link: '/JS/async-programming' },
+        { text: '高阶编程技巧', link: '/JS/advanced-programming' },
+        { text: '面向对象编程', link: '/JS/oop' },
+        { text: '浏览器底层渲染', link: '/JS/browser-render' },
       ]
     }
   ]
@@ -18,6 +21,19 @@ export const vue3 = () => {
         { text: 'vue3的setup函数', link: '/vue3/setup-function' },
         { text: 'vue3的响应式API', link: '/vue3/composition-api' },
         { text: 'vue3+ts+elementplus项目搭建', link: '/vue3/project-setup' },
+      ]
+    }
+  ]
+}
+
+export const minivue3 = () => {
+  return [
+    {
+      text: '手写minivue3',
+      items: [
+        { text: 'Vue2 对比 Vue3', link: '/vue3/minivue3/minivue3-v2vsv3' },
+        { text: '环境搭建', link: '/vue3/minivue3/minivue3-env' },
+        { text: 'Reactivity响应式模块', link: '/vue3/minivue3/minivue3-reactivity' },
       ]
     }
   ]
@@ -76,6 +92,25 @@ export const flutter = () => {
         { text: '接口调用', link: '/flutter/sz_dio' },
         { text: '首页', link: '/flutter/sz_home' },
         { text: '登录', link: '/flutter/sz_login' },
+      ]
+    },
+  ]
+}
+
+export const java = () => {
+  return [
+    {
+      text: 'SpringBoot',
+      items: [
+        { text: 'SpringBoot基础', link: '/java/SpringBoot基础' },
+        { text: 'SpringBoot基础项目', link: '/java/SpringBoot基础项目' },
+        { text: 'SpringBoot秒杀项目', link: '/java/SpringBoot秒杀项目' },
+      ]
+    },
+    {
+      text: 'Maven',
+      items: [
+        { text: 'Maven', link: '/java/maven' },
       ]
     },
   ]
