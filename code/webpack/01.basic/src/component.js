@@ -1,7 +1,8 @@
 import "./assets/css/index.css";
 // import "./assets/css/index.less";
 
-function component() {
+// function component() {
+const component = () => {
   const element = document.createElement("div");
 
   element.innerHTML = ["Hello", "webpack"].join(" ");
@@ -12,3 +13,8 @@ function component() {
 }
 
 document.body.appendChild(component());
+
+// test polyfill
+var a = new Promise();
+
+console.log(a);

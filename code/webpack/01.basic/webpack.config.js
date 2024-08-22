@@ -65,12 +65,30 @@ module.exports = () => ({
         generator: {
           filename: 'images/[name].[hash:8][ext]'
         }
-      }
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
+      },
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
+        // use: 'ts-loader'
+      },
     ]
   },
   plugins: [
     // new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin()
-  ]
+  ],
+  resolve: {
+    extensions: ['.ts', '.js'], // 可以省略后缀 ./a.ts -> ./a
+  }
 })
