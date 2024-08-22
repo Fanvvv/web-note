@@ -122,6 +122,9 @@ export const engineering = () => {
       text: 'Webpack',
       items: [
         { text: '初识webpack', link: '/frontend-engineering/webpack/1.初始webpack' },
+        { text: '处理css资源', link: '/frontend-engineering/webpack/2.处理css资源' },
+        { text: '处理其他资源', link: '/frontend-engineering/webpack/3.处理其他资源' },
+        { text: '构建现代js环境', link: '/frontend-engineering/webpack/4.构建现代js环境' },
       ]
     },
   ]
