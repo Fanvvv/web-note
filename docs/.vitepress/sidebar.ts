@@ -116,7 +116,7 @@ export const java = () => {
   ]
 }
 
-export const engineering = () => {
+export const webpack = () => {
   return [
     {
       text: 'Webpack',
@@ -127,6 +127,17 @@ export const engineering = () => {
         { text: '构建现代js环境', link: '/frontend-engineering/webpack/4.构建现代js环境' },
         { text: 'npm库和source-map', link: '/frontend-engineering/webpack/5.npm库和source-map' },
         { text: 'config结构解读', link: '/frontend-engineering/webpack/6.配置结构' },
+      ]
+    },
+  ]
+}
+
+export const vite = () => {
+  return [
+    {
+      text: '其他',
+      items: [
+        { text: '打包成app遇到的问题', link: '/frontend-engineering/vite/打包成app遇到的问题' }
       ]
     },
   ]

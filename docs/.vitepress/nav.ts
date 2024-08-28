@@ -18,12 +18,6 @@ export const nav = () => {
       ]
     },
     {
-      text: 'Vite',
-      items: [
-        { text: 'Vite项目打包成app遇到的问题', link: '/vite/打包成app遇到的问题' },
-      ]
-    },
-    {
       text: 'Flutter',
       items: [
         { text: 'Flutter基础', link: '/flutter/init' },
@@ -40,6 +34,9 @@ export const nav = () => {
       text: '前端工程化',
       items: [
         { text: 'webpack', link: '/frontend-engineering/webpack/1.初始webpack' },
+        {
+          text: 'vite', link: '/frontend-engineering/vite/打包成app遇到的问题'
+        },
       ]
     },
     // { 
