@@ -3,3 +3,9 @@
 /docs/.vitepress/cache
 
 /code/**/node_modules
+/code/**/dist
+
+package-lock.json
+pnpm-lock.yaml
+
+.idea
