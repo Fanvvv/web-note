@@ -99,6 +99,17 @@ export const flutter = () => {
   ]
 }
 
+export const canvas = () => {
+  return [
+    {
+      text: 'Canvas',
+      items: [
+        { text: 'canvas入门', link: '/canvas/01.canvas入门' },
+      ]
+    }
+  ]
+}
+
 export const node =() => {
   return [
     {
@@ -129,6 +140,19 @@ export const java = () => {
   ]
 }
 
+export const docker = () => {
+  return [
+    {
+      text: 'Docker',
+      items: [
+        { text: '基本概念', link: '/docker/01.基本概念' },
+        { text: 'docker安装', link: '/docker/02.docker安装' },
+        { text: 'docker命令', link: '/docker/03.docker命令' },
+      ]
+    }
+  ]
+}
+
 export const webpack = () => {
   return [
     {
@@ -140,6 +164,8 @@ export const webpack = () => {
         { text: '构建现代js环境', link: '/frontend-engineering/webpack/4.构建现代js环境' },
         { text: 'npm库和source-map', link: '/frontend-engineering/webpack/5.npm库和source-map' },
         { text: 'config结构解读', link: '/frontend-engineering/webpack/6.配置结构' },
+        { text: '本地开发服务器和HMR', link: '/frontend-engineering/webpack/7.本地开发服务器和HMR' },
+        { text: 'webpack模块联邦', link: '/frontend-engineering/webpack/8.webpack模块联邦' },
       ]
     },
   ]

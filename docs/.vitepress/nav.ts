@@ -18,8 +18,14 @@ export const nav = () => {
       ]
     },
     {
-      text: '移动端',
+      text: '大前端',
       items: [
+        {
+          text: 'Canvas',
+          items: [
+            { text: 'Canvas', link: '/canvas/01.canvas入门' },
+          ]
+        },
         {
           text: 'Flutter',
           items: [
@@ -48,6 +54,7 @@ export const nav = () => {
     {
       text: '前端工程化',
       items: [
+        { text: 'docker', link: '/docker/01.基本概念' },
         { text: 'webpack', link: '/frontend-engineering/webpack/1.初始webpack' },
         {
           text: 'vite', link: '/frontend-engineering/vite/打包成app遇到的问题'
