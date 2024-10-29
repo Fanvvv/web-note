@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas 入门</title>
+  <style>
+    #canvas {
+      border: 1px solid #000;
+      margin: 10px 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    // 获取canvas元素
+    const canvas = document.getElementById('canvas')
+    // 获取canvas上下文
+    const ctx = canvas.getContext('2d')
+
+    // 设置canvas宽高
+    canvas.width = 400
+    canvas.height = 300
+
+    // 绘制线段
+    ctx.moveTo(10, 10) // 设置起点
+    ctx.lineTo(200, 150) // 设置终点
+    ctx.lineCap = 'round' // 设置线段端点样式
+    ctx.lineWidth = 10 // 设置线段宽度
+    ctx.stroke() // 描边
+
+    // 绘制一个点
+    // ctx.beginPath()
+    // ctx.arc(200, 150, 10, 0, 2 * Math.PI, true)
+    // ctx.closePath();
+    // ctx.fillStyle = 'red';
+    // ctx.fill()
+
+    // 绘制弧
+    // ctx.beginPath()
+    // ctx.arc(200, 150, 100, 0, 1 * Math.PI, true)
+    // ctx.closePath()
+    // ctx.stroke()
+  </script>
+</body>
+
+</html>
