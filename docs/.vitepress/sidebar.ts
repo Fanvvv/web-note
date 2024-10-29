@@ -8,6 +8,8 @@ export const js = () => {
         { text: '高阶编程技巧', link: '/JS/advanced-programming' },
         { text: '面向对象编程', link: '/JS/oop' },
         { text: '浏览器底层渲染', link: '/JS/browser-render' },
+        { text: 'http网络通信层' , link: '/JS/http-network'},
+        { text: 'Proxy和Reflect' , link: '/JS/proxy-reflect' },
       ]
     }
   ]
@@ -92,6 +94,17 @@ export const flutter = () => {
         { text: '接口调用', link: '/flutter/sz_dio' },
         { text: '首页', link: '/flutter/sz_home' },
         { text: '登录', link: '/flutter/sz_login' },
+      ]
+    },
+  ]
+}
+
+export const node =() => {
+  return [
+    {
+      text: 'Node基础',
+      items: [
+        { text: '1.REPL', link: '/node/1.REPL' },
       ]
     },
   ]

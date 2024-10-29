@@ -18,16 +18,31 @@ export const nav = () => {
       ]
     },
     {
-      text: 'Flutter',
+      text: '移动端',
       items: [
-        { text: 'Flutter基础', link: '/flutter/init' },
+        {
+          text: 'Flutter',
+          items: [
+            { text: 'Flutter基础', link: '/flutter/init' },
+          ]
+        },
       ]
     },
     {
-      text: 'Java',
+      text: '后端',
       items: [
-        { text: 'Maven', link: '/java/maven' },
-        { text: 'SpringBoot', link: '/java/SpringBoot基础' },
+        { text: 'Node',
+          items: [
+            { text: 'Node基础', link: '/node/1.REPL'}
+          ]
+        },
+        {
+          text: 'Java',
+          items: [
+            { text: 'Maven', link: '/java/maven' },
+            { text: 'SpringBoot', link: '/java/SpringBoot基础' },
+          ]
+        },
       ]
     },
     {
@@ -39,15 +54,15 @@ export const nav = () => {
         },
       ]
     },
-    // { 
+    // {
     //   text: 'Node',
     //   link: '/node'
     // },
-    // { 
+    // {
     //   text: '设计模式',
     //   link: '/design-pattern'
     // },
-    // { 
+    // {
     //   text: '算法',
     //   link: '/algo'
     // },
