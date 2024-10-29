@@ -263,10 +263,11 @@ export function reactive(target) {
         return target
     }
     // 如果取值的时候走了代理对象的 get 方法，便是被代理过的，并没有增加这个属性
+    // 可以处理嵌套的响应式对象和 readonly 对象
     if (target[ReactiveFlags.IS_REACTIVE]) {
         return target
     }
-    // 对象被代理过直接 return
+    // 对象被代理过直接 return，确保对同一个原始对象不会创建多个代理
     const existProxy = reactiveMap.get(target)
     if (existProxy) {
         return existProxy
@@ -326,6 +327,21 @@ export const mutableHandlers = {
     },
 }
 ```
+
+#### 2.3.3 reactive 函数图解
+
+![image-20240903152801246](minivue3-reactivity.assets/image-20240903152801246.png)
+
+:::tip 工作流程：
+
+1. 将对象传入 `reactive` 函数：`reactive(target)`
+2. 判断 `target` 是否为对象，如果不是对象则直接 `return target`
+3. 判断 `target` 是否已经被代理，如果已经被代理，也 `return target`
+4. 创建 `Proxy` 代理，获取值的时候进行` track` 依赖收集，设置值的时候进行 `trigger` 更新
+5. 在 `WeakMap` 中对 `target` 及其代理进行存储
+6. 返回代理对象
+
+:::
 
 ## 3. 编写 effect 方法
 
@@ -529,7 +545,9 @@ export function trigger(target, key, newValue, oldValue) {
 }
 ```
 
-![img](minivue3-reactivity.assets/1714462805916-909fda59-7962-482c-a1bb-9506cfd6c540.png)需要判断一下是否执行过
+![img](minivue3-reactivity.assets/1714462805916-909fda59-7962-482c-a1bb-9506cfd6c540.png)
+
+需要判断一下是否执行过
 
 ```typescript
 export function trigger(target, key, newValue, oldValue) {
@@ -657,11 +675,15 @@ export function trigger(target, key, newValue, oldValue) {
 }
 ```
 
-### 3.3. 自定义调度函数（scheduler）
+### 3.3. track 和 trigger 图解
+
+![image-20240904110529975](minivue3-reactivity.assets/image-20240904110529975.png)
+
+### 3.4. 自定义调度函数（scheduler）
 
 `effect` 中还有个 `stop` 函数，可以将 `effect` 变成**失活态**，失去响应式。
 
-返回值可以是 `run` 函数，可以强制更新，相当于 vue2 的 `$fouceupdate`
+`effect` 的返回值可以是 `run` 函数，可以强制更新，相当于 vue2 的 `$forceupdate`
 
 ```typescript
 class ReactiveEffect<T = any> {
@@ -755,7 +777,7 @@ export function effect<T = any>(fn: () => T) {
 
 ![img](minivue3-reactivity.assets/1714980216907-e265d695-df52-47fd-a072-6151d75e9619.png)
 
-#### 3.3.1. 实现自定义调度函数
+#### 3.4.1. 实现自定义调度函数
 
 实现了 `stop` 和 `runner`，数据改变了一次他又需要调用 `runner`，可以写一个 `scheduler` 函数对数据更改做统一`runner`，可以减少更新次数。
 
@@ -844,6 +866,10 @@ export function trigger(target, key, newValue, oldValue) {
     }
 }
 ```
+
+### 3.5 effect 方法图解
+
+![image-20240904141808950](minivue3-reactivity.assets/image-20240904141808950.png)
 
 ## 4. 编写 computed 方法
 
@@ -1019,6 +1045,20 @@ export function triggerEffects(dep) {
     }
 }
 ```
+
+### 4.2 实现步骤
+
+1. 创建 `ComputedRefImpl` 实例，这个实例包含了计算属性的核心逻辑，如缓存机制、依赖追踪；他有一个 `_dirty` 标志来表示当前缓存是否有效
+
+2. 创建 `effect`，使用传入的 getter 函数创建一个 `ReactiveEffect` 实例，执行 `effect` 的 `run` 方法会收集计算属性的依赖。
+
+3. 设置 `scheduler` 调度器，为 effect 设置一个自定义调度器，当依赖发生变化时，调度器会被触发，调度器主要做两件事情：
+
+   ​	a. 将`_dirty` 标记为 `true`，表示当前缓存已失效
+
+   ​    b. 触发更新
+
+4. `get` 取值的时候触发依赖收集，`_dirty` 为 `true` 时，才执行 `effect` 重新计算，计算完成后将 `_dirty` 设置为 `false`
 
 ## 5. 编写 watch 方法
 
