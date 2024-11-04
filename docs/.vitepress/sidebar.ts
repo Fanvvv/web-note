@@ -137,6 +137,12 @@ export const java = () => {
         { text: 'Maven', link: '/java/maven' },
       ]
     },
+    {
+      text: '其他',
+      items: [
+        { text: 'Mybatis Plus 入门', link: '/java/mybatisplus' },
+      ]
+    },
   ]
 }
 
@@ -177,6 +183,23 @@ export const vite = () => {
       text: '其他',
       items: [
         { text: '打包成app遇到的问题', link: '/frontend-engineering/vite/打包成app遇到的问题' }
+      ]
+    },
+  ]
+}
+
+export const database = () => {
+  return [
+    {
+      text: '数据库',
+      items: [
+        { text: '数据库设计', link: '/database/mysql/数据库设计' },
+      ]
+    },
+    {
+      text: 'MySQL',
+      items: [
+        { text: 'MySQL的操作', link: '/database/mysql/MySQL操作' },
       ]
     },
   ]

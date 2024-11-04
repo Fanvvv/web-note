@@ -11,6 +11,7 @@ import {
   node,
   docker,
   canvas,
+  database,
 } from './sidebar'
 
 export default {
@@ -38,7 +39,8 @@ export default {
       '/java': java(),
       '/docker': docker(),
       '/frontend-engineering/webpack': webpack(),
-      '/frontend-engineering/vite': vite()
+      '/frontend-engineering/vite': vite(),
+      '/database': database()
     },
     outline: {
       level: 'deep',

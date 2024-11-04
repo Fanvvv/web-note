@@ -47,8 +47,15 @@ export const nav = () => {
           items: [
             { text: 'Maven', link: '/java/maven' },
             { text: 'SpringBoot', link: '/java/SpringBoot基础' },
+            { text: 'Mybatis Plus', link: '/java/mybatisplus' },
           ]
         },
+        {
+          text: '数据库',
+          items: [
+            { text: 'MySQL', link: '/database/mysql/MySQL操作' },
+          ]
+        }
       ]
     },
     {
