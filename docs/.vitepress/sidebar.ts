@@ -129,6 +129,7 @@ export const java = () => {
         { text: 'SpringBoot基础', link: '/java/SpringBoot基础' },
         { text: 'SpringBoot基础项目', link: '/java/SpringBoot基础项目' },
         { text: 'SpringBoot秒杀项目', link: '/java/SpringBoot秒杀项目' },
+        { text: 'SpringBoot租房项目', link: '/java/SpringBoot租房项目' },
       ]
     },
     {
