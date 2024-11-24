@@ -155,6 +155,7 @@ export const docker = () => {
         { text: '基本概念', link: '/docker/01.基本概念' },
         { text: 'docker安装', link: '/docker/02.docker安装' },
         { text: 'docker命令', link: '/docker/03.docker命令' },
+        { text: 'docker中安装nginx', link: '/docker/docker中安装nginx' },
       ]
     }
   ]
